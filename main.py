@@ -17,6 +17,8 @@ def about(station, date):
     temperature = 23
     return {"station": station, "date": date, "temperature": temperature}
 
+
 # The app only is executed when the main.py file is executed
 if __name__ == "__main__":
-    app.run(debug=True)
+    # The specified port allow that other apps run at the default port 5000
+    app.run(debug=True, port=5001)
