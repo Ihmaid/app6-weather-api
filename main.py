@@ -15,8 +15,16 @@ def home():
 # another value into the url
 @app.route("/api/v1/<station>/<date>")
 def about(station, date):
+    # Generates the filename concatenating the filled station number with the
+    # archives path to extract the chosen station
     filename = f"data_small/TG_STAID{str(station).zfill(6)}.txt"
+
+    # Generates the dataframe
     df = pd.read_csv(filename, skiprows=20, parse_dates=["    DATE"])
+
+    # Locates the item in DATE column which is equal to the introduced date
+    # and returns the referent item from TG column
+    # The squeeze method transforms an pandas series into a scalar item
     temperature = df.loc[df['    DATE'] == date]['   TG'].squeeze() / 10
     return {"station": station,
             "date": date,
