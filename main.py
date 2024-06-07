@@ -1,14 +1,19 @@
 from flask import Flask, render_template
 import pandas as pd
 
+# It's a good practice name the Flask instance as the name of the main archive
 app = Flask(__name__)
+
+stations_table = pd.read_csv("data_small/stations.txt", skiprows=17)
+stations_table = \
+    stations_table[["STAID", "STANAME                                 "]]
 
 
 # The @ is a decorator, and when the browser receive the url extension which is
 # in parentheses it will call and execute the function
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", data=stations_table.to_html())
 
 
 # The names are into <> to demonstrate to flask that the user can insert
@@ -24,7 +29,7 @@ def about(station, date):
 
     # Locates the item in DATE column which is equal to the introduced date
     # and returns the referent item from TG column
-    # The squeeze method transforms an pandas series into a scalar item
+    # The squeeze method transforms a pandas series into a scalar item
     temperature = df.loc[df['    DATE'] == date]['   TG'].squeeze() / 10
     return {"station": station,
             "date": date,
