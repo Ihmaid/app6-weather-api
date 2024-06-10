@@ -4,7 +4,9 @@ import pandas as pd
 # It's a good practice name the Flask instance as the name of the main archive
 app = Flask(__name__)
 
+# Create a variable that refers to the dataframe of the stations table
 stations_table = pd.read_csv("data_small/stations.txt", skiprows=17)
+# Only shows these 2 columns
 stations_table = \
     stations_table[["STAID", "STANAME                                 "]]
 
@@ -42,18 +44,24 @@ def about_general(station):
 
     df = pd.read_csv(filename, skiprows=20, parse_dates=["    DATE"])
 
+    # The to_dict method transform the dataframe into a more visible and alike
+    # JSON dictionary
     result = df.to_dict(orient="records")
 
     return result
 
 
+# Here the yearly is used to distinguish the about link to the about_year link
 @app.route("/api/v1/yearly/<station>/<year>")
 def about_year(station, year):
     filename = f"data_small/TG_STAID{str(station).zfill(6)}.txt"
 
     df = pd.read_csv(filename, skiprows=20)
 
+    # Transforms the column of the df into a plain string
     df["    DATE"] = df["    DATE"].astype(str)
+    # The result variable receives the df transformed into dict, this df that
+    # has only the values where te DATE string starts with the indicate year
     result = df[df["    DATE"].str.startswith(str(year))].to_dict(orient="records")
     return result
 

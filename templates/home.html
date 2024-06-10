@@ -10,6 +10,9 @@
     <p>For one station for one day: http://127.0.0.1:5001/api/v1/10/1988-10-25</p>
     <p>For one station for all days: http://127.0.0.1:5001/api/v1/10</p>
     <p>For one station for one year: http://127.0.0.1:5001/api/v1/yearly/10/year</p>
+
+    <!--The syntax {{variable}} receives the variable specified at the calling
+    of the render_template function-->
     <!--The |safe is to identify the data variable as html data instead of
     been identified as plain string, which is default by Flask engine-->
     <p>{{data|safe}}</p>
